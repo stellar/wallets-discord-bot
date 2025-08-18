@@ -9,18 +9,18 @@ export const watchMessages = async (discordToken: string, slackToken: string, lo
     intents: [
       GatewayIntentBits.Guilds,
       GatewayIntentBits.GuildMessages,
-      GatewayIntentBits.MessageContent,
+      GatewayIntentBits.MessageContent
     ],
-  });
-  const slackClient = new WebClient(slackToken);
+  })
+  const slackClient = new WebClient(slackToken)
 
   discordClient.once(Events.ClientReady, (readyClient) => {
     logger.info(`Logged in as ${readyClient.user.tag}`);
-  });
+  })
 
   discordClient.on("messageCreate", async (message) => {
     return Promise.all([walletTeamWatchMessages(message, discordClient, slackClient, logger)]);
-  });
+  })
 
-  discordClient.login(discordToken);
-};
+  discordClient.login(discordToken)
+}
