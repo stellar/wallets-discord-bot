@@ -10,12 +10,12 @@ export const watchMessages = async (discordToken: string, slackToken: string, lo
       GatewayIntentBits.Guilds,
       GatewayIntentBits.GuildMessages,
       GatewayIntentBits.MessageContent
-    ],
+    ]
   })
   const slackClient = new WebClient(slackToken)
 
-  discordClient.once(Events.ClientReady, (readyClient) => {
-    logger.info(`Logged in as ${readyClient.user.tag}`);
+  discordClient.once(Events.ClientReady, readyClient => {
+    logger.info(`Logged in as ${readyClient.user.tag}`)
   })
 
   discordClient.on("messageCreate", async (message) => {
