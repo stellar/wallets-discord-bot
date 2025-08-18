@@ -20,7 +20,7 @@ export const watchMessages = async (discordToken: string, slackToken: string, lo
 
   discordClient.on('messageCreate', async (message) => {
     return Promise.all([walletTeamWatchMessages(message, discordClient, slackClient, logger)]);
-  })
+  });
 
   discordClient.login(discordToken)
 }
