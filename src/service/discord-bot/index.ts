@@ -18,7 +18,7 @@ export const watchMessages = async (discordToken: string, slackToken: string, lo
     logger.info(`Logged in as ${readyClient.user.tag}`)
   })
 
-  discordClient.on("messageCreate", async (message) => {
+  discordClient.on('messageCreate', async (message) => {
     return Promise.all([walletTeamWatchMessages(message, discordClient, slackClient, logger)]);
   })
 
