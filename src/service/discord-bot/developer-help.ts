@@ -43,7 +43,7 @@ export const developerHelpWatchMessages = async (
 
     const res = await slackClient.chat.postMessage({
       channel: SLACK_POST_CHANNEL,
-      text: `channel: *${channelName}*, from *${message.author.username}*, [thread](${message.url}):
+      text: `channel: *${channelName}*, from *${message.author.username}*, <${message.url}|thread>:
 ${message.content}
       `,
     });
