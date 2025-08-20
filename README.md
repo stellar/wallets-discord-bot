@@ -1,4 +1,5 @@
 # Wallets Discord Bot
+
 A bot to take wallet related messages from Discord and move them a central slack channel for wallet devs
 
 ## Prerequisites
@@ -9,8 +10,9 @@ You will need
 - Yarn (>=v1.22.5): https://classic.yarnpkg.com/en/docs/install
 
 ## Development
+
 To start the server in development mode, run:
-`yarn i && yarn start`
+`yarn && yarn start`
 
 ## Production build
 

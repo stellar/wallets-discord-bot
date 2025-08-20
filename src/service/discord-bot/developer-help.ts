@@ -1,4 +1,10 @@
-import { ChannelType, Client, Message } from "discord.js";
+import {
+  ChannelType,
+  Client,
+  Message,
+  TextChannel,
+  ThreadChannel,
+} from "discord.js";
 import { WebClient } from "@slack/web-api";
 import { Logger } from "pino";
 
@@ -14,9 +20,27 @@ export const developerHelpWatchMessages = async (
   // Ignore messages from bots
   if (message.author.bot) return;
 
-  if (message.channelId == DISCORD_CHANNEL) {
+  if (
+    message.channelId == DISCORD_CHANNEL ||
+    (message.channel?.isThread() &&
+      message.channel.parentId === DISCORD_CHANNEL)
+  ) {
     const channel = await discordClient.channels.fetch(message.channelId);
-    const channelName = channel && channel.type === ChannelType.GuildText ? channel.name : message.channelId;
+
+    let channelName: string;
+    if (channel?.type === ChannelType.GuildText) {
+      channelName = (channel as TextChannel).name;
+    } else if (channel?.isThread()) {
+      const thread = channel as ThreadChannel;
+      const parentName =
+        thread.parent?.type === ChannelType.GuildText
+          ? thread.parent.name
+          : "unknown";
+      channelName = `${parentName} > ${thread.name}`;
+    } else {
+      channelName = message.channelId;
+    }
+
     const res = await slackClient.chat.postMessage({
       channel: SLACK_POST_CHANNEL,
       text: `channel: *${channelName}*, from *${message.author.username}*, [thread](${message.url}):
