@@ -1,10 +1,4 @@
-import {
-  ChannelType,
-  Client,
-  Message,
-  TextChannel,
-  ThreadChannel,
-} from "discord.js";
+import { ChannelType, Client, Message, TextChannel } from "discord.js";
 import { WebClient } from "@slack/web-api";
 import { Logger } from "pino";
 
