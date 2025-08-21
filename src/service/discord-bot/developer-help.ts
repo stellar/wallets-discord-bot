@@ -13,15 +13,31 @@ export const developerHelpWatchMessages = async (
 ) => {
   // Ignore messages from bots and replies
   if (message.author.bot) return;
-  if (message.reference) return;
 
-  if (message.channelId !== DISCORD_CHANNEL) return;
+  // Only consider messages in the top-level channel or its posts
+  if (
+    message.channelId !== DISCORD_CHANNEL &&
+    (!message.channel?.isThread() ||
+      message.channel.parentId !== DISCORD_CHANNEL)
+  ) {
+    return;
+  }
+
+  // Only allow the first message in a post/thread, ignore follow-up replies
+  if (message.channel?.isThread() && message.id !== message.channel.id) {
+    return;
+  }
 
   const channel = await discordClient.channels.fetch(message.channelId);
-  const channelName =
-    channel?.type === ChannelType.GuildText
-      ? (channel as TextChannel).name
-      : message.channelId;
+
+  let channelName: string;
+  if (channel?.type === ChannelType.GuildText) {
+    channelName = (channel as TextChannel).name;
+  } else if (channel?.isThread()) {
+    channelName = channel.name;
+  } else {
+    channelName = message.channelId;
+  }
 
   const res = await slackClient.chat.postMessage({
     channel: SLACK_POST_CHANNEL,
