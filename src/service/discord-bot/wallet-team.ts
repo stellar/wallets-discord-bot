@@ -34,9 +34,9 @@ export const walletTeamWatchMessages = async (
         : message.channelId;
     const res = await slackClient.chat.postMessage({
       channel: SLACK_POST_CHANNEL,
-      text: `channel: *${channelName}*, from *${escapeSlackMrkdwn(
-        message.author.username
-      )}*:
+      text: `channel: *${escapeSlackMrkdwn(
+        channelName
+      )}*, from *${escapeSlackMrkdwn(message.author.username)}*:
 ${escapeSlackMrkdwn(message.content)}`,
       unfurl_links: false,
       unfurl_media: false,
