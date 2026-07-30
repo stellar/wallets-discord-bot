@@ -2,6 +2,8 @@ import { ChannelType, Client, Message, TextChannel } from "discord.js";
 import { WebClient } from "@slack/web-api";
 import { Logger } from "pino";
 
+import { escapeSlackMrkdwn } from "../../helper/slack";
+
 const DISCORD_CHANNEL = "1037066367326752818"; // #developer-help in Discord
 const SLACK_POST_CHANNEL = "C08HHHVCSK1"; // #discord-developer-help in Slack
 
@@ -41,9 +43,12 @@ export const developerHelpWatchMessages = async (
 
   const res = await slackClient.chat.postMessage({
     channel: SLACK_POST_CHANNEL,
-    text: `*${channelName}*, from *${message.author.username}*, <${message.url}|post>:
-${message.content}`,
+    text: `*${escapeSlackMrkdwn(channelName)}*, from *${escapeSlackMrkdwn(
+      message.author.username
+    )}*, <${message.url}|post>:
+${escapeSlackMrkdwn(message.content)}`,
     unfurl_links: false,
+    unfurl_media: false,
   });
 
   if (!res.ok) {
