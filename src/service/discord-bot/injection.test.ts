@@ -122,6 +122,24 @@ describe("walletTeamWatchMessages", () => {
       "channel: *general*, from *mallory*:\nfreighter question"
     );
   });
+
+  it("escapes the channel name, which the template should not have to trust", async () => {
+    const { slackClient, posted } = mockSlackClient();
+    const message = discordMessage({ content: "freighter question" });
+
+    await walletTeamWatchMessages(
+      message,
+      mockDiscordClient(
+        guildTextChannel("general<https://evil.example.com|docs>")
+      ),
+      slackClient,
+      mockLogger()
+    );
+
+    const { text } = posted[0];
+    expect(text).toContain("general&lt;https://evil.example.com|docs&gt;");
+    expect(text).not.toContain("<https://evil.example.com|docs>");
+  });
 });
 
 describe("developerHelpWatchMessages", () => {
