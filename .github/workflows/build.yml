@@ -1,8 +1,8 @@
 name: Build and push image
 
-# Replaces the Jenkins job ProductEngineering/wallets-discord-bot. Pushes to main
-# run the tests, then build and push prd/wallets-discord-bot:<short sha>. ArgoCD
-# Image Updater deploys new images in that repo to production automatically.
+# Pushes to main run the tests, then build and push
+# prd/wallets-discord-bot:<short sha>. ArgoCD Image Updater deploys new images
+# in that repo to production automatically.
 
 on:
   push:
