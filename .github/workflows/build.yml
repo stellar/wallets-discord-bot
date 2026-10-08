@@ -37,7 +37,7 @@ jobs:
 
       - name: ECR login
         id: ecr-login
-        uses: stellar/actions/sdf-ecr-login@1f0afe5212a6547b2b044d7b546632d3e6f0abc4 # main as of stellar/actions#118
+        uses: stellar/actions/sdf-ecr-login@main
 
       - name: Build and push
         env:
